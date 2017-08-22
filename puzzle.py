@@ -31,18 +31,10 @@ pygame.display.set_caption("Funny puzzle")
 
 Nodes = 0
 
-# surf1 = pygame.Surface(screen.get_size())
-# surf1 = surf1.convert()
-# surf1.fill((250, 250, 250))
-
 print "screen initiated"
 
-def FindSolution(state, level, screen, surf1, Nodes):
-    #returns True if isGoal 
-    # global Nodes
-    # global surf1
-    # global screen
-    
+def FindSolution(state, level, screen, Nodes):
+    #returns True if isGoal
 
     if state.isGoal():
         state.display( screen )
@@ -56,14 +48,10 @@ def FindSolution(state, level, screen, surf1, Nodes):
         pygame.display.flip()    
         return False
     
-    if level <= 9:
+    if level <= 5:
         i = 0
         state.display( screen )
-        # font = pygame.font.Font(None, 24)
-        # text_surf = font.render("Checked:" + str(Nodes) + "nodes   ", 1, (100, 100, 100))
-        
-        # screen.blit(text_surf, (200,450) )
-        # # surf1.blit(surf1, (0,0) )
+         
         pygame.display.flip()
         pygame.event.poll() 
     
@@ -78,11 +66,10 @@ def FindSolution(state, level, screen, surf1, Nodes):
         if newState.isIsolated():
             continue
                  
-        if FindSolution(newState, level + 1, screen, surf1, Nodes):
+        if FindSolution(newState, level + 1, screen, Nodes):
             GoalStates.append(state)
             
             print "Goal found!", Nodes,"were checked"
-
             #return True
     
     return False
@@ -128,8 +115,7 @@ GoalStates = []
 
 startState = game.gameState(Bricks)
 
-surf1 = None
-if not FindSolution(startState, 0, screen, surf1, Nodes): 
+if not FindSolution(startState, 0, screen, Nodes): 
     print " there's no solution"
 else:
     print "Congats! Soltion is found"
